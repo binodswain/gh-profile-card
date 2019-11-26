@@ -1,0 +1,52 @@
+@import './variable.scss';
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.link {
+    text-decoration: none;
+    color: #24292e;
+}
+
+.repo-wrapper {
+    width: 300px;
+    font-family: monospace;
+    padding: 0 15px;
+    box-sizing: border-box;
+
+    .title {
+        font-size: 17px;
+        text-align: center;
+    }
+
+    // border: 1px solid #ccc;
+    // border-top: none;
+
+    .repo {
+        padding: 15px 0;
+        
+        .desc {
+            font-size: 14px;
+        }
+
+        .name {
+            font-size: 14px;
+        }
+
+        .language {
+            font-size: 12px;
+            background-color: brown;
+            color: white;
+            padding: 0 3px;
+            border-radius: 2px;
+        }
+        .stats {
+            display: flex;
+            .count {
+                flex: 1;
+            }
+        }
+    }
+}

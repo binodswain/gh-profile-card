@@ -1,0 +1,12 @@
+{
+  "name": "social-profile",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "browserslist": [
+    "last 2 chrome versions"
+  ],
+  "scripts": {
+    "start": "npx parcel index.html"
+  }
+}
