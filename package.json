@@ -1,12 +1,26 @@
 {
   "name": "social-profile",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/github-widget.cjs.js",
+  "module": "dist/github-widget.esm.js",
+  "browser": "dist/github-widget.umd.js",
   "license": "MIT",
   "browserslist": [
     "last 2 chrome versions"
   ],
+  "devDependencies": {
+    "rollup": "^1.20.0",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.1.0",
+    "rollup-plugin-terser": "^5.1.2"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "npx parcel index.html"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "node test/test.js",
+    "pretest": "npm run build"
   }
 }
