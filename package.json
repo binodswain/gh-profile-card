@@ -2,7 +2,7 @@
   "name": "social-profile",
   "version": "0.0.1",
   "main": "dist/github-widget.cjs.js",
-  "module": "dist/github-widget.esm.js",
+  "module": "dist/github-widget.esm.mjs",
   "browser": "dist/github-widget.umd.js",
   "license": "MIT",
   "browserslist": [

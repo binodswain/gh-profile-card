@@ -1,8 +1,8 @@
-src
+# src
 example
 .babelrc
 webpack.config.js
-README.md
+# README.md
 node_modules/
 coverage
 docs
