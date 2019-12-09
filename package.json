@@ -1,13 +1,10 @@
 {
-  "name": "social-profile",
+  "name": "gh-profile",
   "version": "0.0.1",
   "main": "dist/github-widget.cjs.js",
   "module": "dist/github-widget.esm.mjs",
   "browser": "dist/github-widget.umd.js",
   "license": "MIT",
-  "browserslist": [
-    "last 2 chrome versions"
-  ],
   "devDependencies": {
     "rollup": "^1.20.0",
     "rollup-plugin-commonjs": "^10.0.0",
