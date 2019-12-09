@@ -6,14 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Github-profile</title>
   <meta name="description" content="GitHub profile widget. A simple widget to display your github profile and repositories.">
-  <script src="/dist/github-widget.esm.mjs" type="module"></script>
 </head>
 <body>
     <github-w user="binodswain">
         <profile-info 
           data-theme="light"
           data-company="true"
-          data-bio="false"
+          data-bio="true"
           >
         </profile-info>
     </github-w>
@@ -33,12 +32,14 @@
           data-company="true"
           data-bio="false"
           >
-          <repo-info
+          
+        </profile-info>
+        <repo-info
             data-limit="5" 
             data-direction="desc"
             data-sort="updated"
           ></repo-info>
-        </profile-info>
     </github-w>
+    <script src="/dist/github-widget.esm.mjs" type="module"></script>
 </body>
 </html>
