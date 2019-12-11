@@ -112,7 +112,7 @@ export const PROFILE_STYLE = `
     background-color: white;
     border-color: #24292e;
     color: #24292e; }
-`
+`;
 
 export const REPO_STYLE = `
 * {
@@ -148,4 +148,4 @@ export const REPO_STYLE = `
       .repo-wrapper .repo .stats .count {
         flex: 1; }
 
-`
+`;

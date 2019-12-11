@@ -17,7 +17,8 @@ Include HTML code anywhere you would like to place widget:
     </profile-info>
 </github-w>
 ```
-
+## Screenshot
+![demo](/media/github-card.png?raw=true "light and dark")
 ## Configurations
 profile-info options
 repo-info options

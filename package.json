@@ -18,6 +18,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "node test/test.js",
-    "pretest": "npm run build"
+    "clean": "rimraf dist",
+    "pretest": "npm run build",
+    "pretty": "prettier --write \"./src/*.{js,json}\""
   }
 }
