@@ -8,39 +8,23 @@ import "./repo";
 
 // Create a class for the element
 class Github extends HTMLElement {
-    // Specify observed attributes so that
-    // attributeChangedCallback will work
-    // static get observedAttributes() {
-    // }
-
     get user() {
         return this.getAttribute("user");
     }
 
     constructor() {
-        // Always call super first in constructor
         super();
     }
-
-    connectedCallback() {}
-    disconnectedCallback() {}
-    adoptedCallback() {}
-    attributeChangedCallback(name, oldValue, newValue) {}
 }
 
 customElements.define("github-w", Github);
 
 class Profile extends HTMLElement {
-    // static get observedAttributes() {
-    //   return ['c', 'l'];
-    // }
-
     fetchUserDetails(user) {
         return getData("https://api.github.com/users/" + user, "profile", user);
     }
 
     constructor() {
-        // Always call super first in constructor
         super();
         let shadowRoot = this.attachShadow({ mode: "open" });
         const style = document.createElement("style");
@@ -65,12 +49,6 @@ class Profile extends HTMLElement {
             }
         });
     }
-
-    disconnectedCallback() {}
-
-    adoptedCallback() {}
-
-    attributeChangedCallback(name, oldValue, newValue) {}
 }
 
 customElements.define("profile-info", Profile);

@@ -1,6 +1,6 @@
 {
   "name": "gh-profile",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "dist/github-widget.cjs.js",
   "module": "dist/github-widget.esm.mjs",
   "browser": "dist/github-widget.umd.js",
@@ -12,14 +12,26 @@
     "rollup-plugin-terser": "^5.1.2"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "package.json",
+    "LICENSE"
   ],
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "test": "node test/test.js",
+    "start": "rollup -c -w",
     "clean": "rimraf dist",
     "pretest": "npm run build",
     "pretty": "prettier --write \"./src/*.{js,json}\""
-  }
+  },
+  "keywords": [
+    "profile",
+    "github-profile",
+    "github-card"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binodswain/gh-profile.git"
+  },
+  "author": "“Binod <binodkumarswain94@gmail.com> (binodswain@github.io)"
 }

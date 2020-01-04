@@ -1,1 +1,412 @@
-"use strict";const profile_data=["bio","avatar_url","blog","created_at","html_url","name","public_repos","repos_url","followers","following","company"],repo_data=["description","forks_count","html_url","language","name","pushed_at","stargazers_count","updated_at","watchers_count"],getData=(e,r,t)=>fetch(e).then((function(e){if(200===e.status)return e.json().then((function(e){if("profile"===r){let r={};return profile_data.forEach(t=>{r[t]=e[t]}),r}if("repo"===r)return e.map(e=>{let r={};return repo_data.forEach(t=>{r[t]=e[t]}),r})}))})).catch((function(e){})),profileTemplate=(e,{theme:r="light",bio:t="true",company:n="true",showstats:a="true"})=>{const{avatar_url:p="",name:o,bio:i,company:s,html_url:l}=e;return`<div class="${r}-themed">\n    <div class="profile-wrapper">\n        <div class="img-wrapper">\n            <img src="${p}" class="profile-pic">\n        </div>\n        <div class="userdetails-wrapper">\n            <div class="name">${o}</div>\n            ${"true"===t.toLowerCase()?`<div class="bio">${i}</div>`:""}\n            ${"true"===n.toLowerCase()?`<div class="company">\n                <a href="https://github.com/${s.slice(1)}" class="link" target="_blank">${s.slice(1)}</a>\n            </div>`:""}\n        </div>\n    </div>\n    ${"true"===a.toLowerCase()?profileStats(e):""}\n    <div class="profile-btn-wrapper">\n        <a href="${l}" class="button profile-button" target="_blank">View profile</a>\n    </div>\n    <slot></slot>\n</div>`},profileStats=({html_url:e,public_repos:r,followers:t,following:n})=>`<div class="profile-stats-wrapper">\n        <div class="repostats-wrapper">\n            <div class="header">Repositories</div>\n            <div class="num">\n                <a href="${e}?tab=repositories" class="num" target="_blank">${r}</a>\n            </div>\n        </div>\n        <div class="follower-wrapper">\n            <div class="header">Followers</div>\n            <div class="num">\n                <a href="${e}?tab=followers" class="num" target="_blank">${t}</a>\n            </div>\n        </div>\n        <div class="following-wrapper">\n            <div class="header">Following</div>\n            <div class="num">\n                <a href="${e}?tab=following" class="num" target="_blank">${n}</a>\n            </div>\n        </div>\n    </div>`,repoTemplate=(e,r={})=>{let t=e.map(e=>{const{description:r,forks_count:t,html_url:n,language:a,name:p,pushed_at:o,stargazers_count:i,updated_at:s,watchers_count:l}=e;return`<div class="repo">\n            <h3 class="name" aria-describedby="${r}">\n                <a href="${n}" class="link" target="_blank">${p}</a>\n                ${a?`<span class="language">${a}</span>`:""}\n            </h3>\n            <div class="stats">\n                <div class="count">Stars: ${i}</div>\n                <div class="count">Watch: ${l}</div>\n                <div class="count">Fork: ${t}</div>\n            </div>\n        </div>`}).join("");return`<div class="repo-wrapper">\n        ${e.length?'<h3 class="title">Repositories</h3>':""}\n        ${t}\n    </div>`},PROFILE_STYLE="\n.profile-wrapper, .profile-stats-wrapper, .profile-btn-wrapper {\n  font-family: monospace;\n  width: 300px;\n  display: flex;\n  flex-direction: row;\n  background-color: #ccc;\n  padding: 15px;\n  box-sizing: border-box; }\n  .profile-wrapper .img-wrapper, .profile-stats-wrapper .img-wrapper, .profile-btn-wrapper .img-wrapper {\n    flex: 1;\n    height: 80px;\n    width: 80px; }\n    .profile-wrapper .img-wrapper img, .profile-stats-wrapper .img-wrapper img, .profile-btn-wrapper .img-wrapper img {\n      height: 100%;\n      border-radius: 50%; }\n  .profile-wrapper .userdetails-wrapper, .profile-stats-wrapper .userdetails-wrapper, .profile-btn-wrapper .userdetails-wrapper {\n    flex: 2;\n    display: flex;\n    flex-direction: column;\n    justify-content: center; }\n    .profile-wrapper .userdetails-wrapper .name, .profile-stats-wrapper .userdetails-wrapper .name, .profile-btn-wrapper .userdetails-wrapper .name {\n      color: black;\n      font-size: 20px;\n      font-weight: 600;\n      line-height: 20px; }\n    .profile-wrapper .userdetails-wrapper .bio, .profile-wrapper .userdetails-wrapper .company, .profile-stats-wrapper .userdetails-wrapper .bio, .profile-stats-wrapper .userdetails-wrapper .company, .profile-btn-wrapper .userdetails-wrapper .bio, .profile-btn-wrapper .userdetails-wrapper .company {\n      color: grey;\n      font-size: 15px;\n      margin-top: 5px; }\n\n.profile-stats-wrapper {\n  justify-content: space-between;\n  padding-top: 0; }\n  .profile-stats-wrapper .repostats-wrapper,\n  .profile-stats-wrapper .follower-wrapper,\n  .profile-stats-wrapper .following-wrapper {\n    flex: 1;\n    text-align: center; }\n    .profile-stats-wrapper .repostats-wrapper .header,\n    .profile-stats-wrapper .follower-wrapper .header,\n    .profile-stats-wrapper .following-wrapper .header {\n      font-weight: bold; }\n    .profile-stats-wrapper .repostats-wrapper .num,\n    .profile-stats-wrapper .follower-wrapper .num,\n    .profile-stats-wrapper .following-wrapper .num {\n      margin-top: 5px;\n      font-size: 20px; }\n\n.profile-btn-wrapper {\n  padding-top: 0; }\n  .profile-btn-wrapper .button {\n    padding: 5px 10px;\n    text-decoration: none;\n    background-color: white;\n    border: 1px solid;\n    border-radius: 4px;\n    font-weight: 600; }\n\n.link {\n  text-decoration: none;\n  color: #24292e; }\n\n.dark-themed {\n  border: 1px solid #24292e;\n  width: 300px;\n  display: inline-block; }\n  .dark-themed.contains-sibling {\n    border-bottom: none; }\n  .dark-themed .link {\n    color: white; }\n    .dark-themed .link:hover {\n      color: #0366d6; }\n  .dark-themed .profile-wrapper, .dark-themed .profile-stats-wrapper, .dark-themed .profile-btn-wrapper {\n    background-color: #24292e; }\n  .dark-themed .userdetails-wrapper .name {\n    color: white; }\n  .dark-themed .userdetails-wrapper .bio, .dark-themed .userdetails-wrapper .company {\n    color: white; }\n  .dark-themed .profile-stats-wrapper .header {\n    color: white; }\n  .dark-themed .profile-stats-wrapper .num {\n    color: white;\n    text-decoration: none; }\n  .dark-themed .profile-btn-wrapper .button {\n    background-color: #24292e;\n    border-color: white;\n    color: white; }\n\n.light-themed {\n  border: 1px solid #ccc;\n  width: 300px;\n  display: inline-block; }\n  .light-themed.contains-sibling {\n    border-bottom: none; }\n  .light-themed .link {\n    color: #24292e; }\n    .light-themed .link:hover {\n      color: #0366d6; }\n  .light-themed .profile-wrapper, .light-themed .profile-stats-wrapper, .light-themed .profile-btn-wrapper {\n    background-color: white; }\n  .light-themed .userdetails-wrapper .name {\n    color: #24292e; }\n  .light-themed .userdetails-wrapper .bio, .light-themed .userdetails-wrapper .company {\n    color: #24292e; }\n  .light-themed .profile-stats-wrapper .header {\n    color: #24292e; }\n  .light-themed .profile-stats-wrapper .num {\n    color: #0366d6;\n    text-decoration: none; }\n  .light-themed .profile-btn-wrapper .button {\n    background-color: white;\n    border-color: #24292e;\n    color: #24292e; }\n",REPO_STYLE="\n* {\n  margin: 0;\n  padding: 0; }\n\n.link {\n  text-decoration: none;\n  color: #24292e; }\n\n.repo-wrapper {\n  width: 300px;\n  font-family: monospace;\n  padding: 0 15px;\n  box-sizing: border-box; }\n  .repo-wrapper .title {\n    font-size: 17px;\n    text-align: center; }\n  .repo-wrapper .repo {\n    padding: 15px 0; }\n    .repo-wrapper .repo .desc {\n      font-size: 14px; }\n    .repo-wrapper .repo .name {\n      font-size: 14px; }\n    .repo-wrapper .repo .language {\n      font-size: 12px;\n      background-color: brown;\n      color: white;\n      padding: 0 3px;\n      border-radius: 2px; }\n    .repo-wrapper .repo .stats {\n      display: flex; }\n      .repo-wrapper .repo .stats .count {\n        flex: 1; }\n\n";class Repo extends HTMLElement{fetchUserRepoDetails(e,r){let t=new URLSearchParams("");return r.limit&&t.append("per_page",r.limit||10),r.sort&&t.append("sort",r.sort||"pushed"),r.direction&&t.append("direction",r.direction),getData(`https://api.github.com/users/${e}/repos?${t.toString()}`,"repo")}constructor(){super();let e=this.attachShadow({mode:"open"});const r=document.createElement("style");r.textContent=REPO_STYLE,e.appendChild(r)}renderUI(e,r){this.shadowRoot.innerHTML+=repoTemplate(e,r)}connectedCallback(){const e=this.parentElement.getAttribute("user")||this.parentElement.parentElement.getAttribute("user"),r=this.dataset;this.fetchUserRepoDetails(e,r).then(e=>{e&&this.renderUI(e,r)})}disconnectedCallback(){}adoptedCallback(){}attributeChangedCallback(e,r,t){}}customElements.define("repo-info",Repo);class Github extends HTMLElement{get user(){return this.getAttribute("user")}constructor(){super()}connectedCallback(){}disconnectedCallback(){}adoptedCallback(){}attributeChangedCallback(e,r,t){}}customElements.define("github-w",Github);class Profile extends HTMLElement{fetchUserDetails(e){return getData("https://api.github.com/users/"+e,"profile")}constructor(){super();let e=this.attachShadow({mode:"open"});const r=document.createElement("style");r.textContent=PROFILE_STYLE,e.appendChild(r)}renderUI(e,r){this.shadowRoot.innerHTML+=profileTemplate(e,r)}connectedCallback(){const e=this.parentElement.getAttribute("user"),r=this.dataset;this.fetchUserDetails(e).then(e=>{e&&this.renderUI(e,r)})}disconnectedCallback(){}adoptedCallback(){}attributeChangedCallback(e,r,t){}}customElements.define("profile-info",Profile);
+'use strict';
+
+const profile_data = [
+    "bio",
+    "avatar_url",
+    "blog",
+    "created_at",
+    "html_url",
+    "name",
+    "public_repos",
+    "repos_url",
+    "followers",
+    "following",
+    "company"
+];
+
+const repo_data = [
+    "description",
+    "forks_count",
+    "html_url",
+    "language",
+    "name",
+    "pushed_at",
+    "stargazers_count",
+    "updated_at",
+    "watchers_count"
+];
+
+const getData = (url, type, user) => {
+    return fetch(url)
+        .then(function(response) {
+            if (response.status !== 200) {
+                // console.log(
+                //     "Looks like there was a problem. Status Code: " +
+                //         response.status
+                // );
+                return;
+            }
+
+            // Examine the text in the response
+            return response.json().then(function(data) {
+                if (type === "profile") {
+                    let userdata = {};
+                    profile_data.forEach((key) => {
+                        userdata[key] = data[key];
+                    });
+                    return userdata;
+                } else if (type === "repo") {
+                    // console.log(data);
+                    return data.map((repo) => {
+                        let repodata = {};
+                        repo_data.forEach((key) => {
+                            repodata[key] = repo[key];
+                        });
+
+                        return repodata;
+                    });
+                }
+            });
+        })
+        .catch(function(err) {
+            // console.log("Fetch Error", err);
+        });
+};
+
+const profileTemplate = (
+    data,
+    {
+        theme = "light",
+        bio: showBio = "true",
+        // location = "false",
+        company: showCompany = "true",
+        showstats: showStats = "true"
+    }
+) => {
+    const {
+        avatar_url = "", name, bio, company, html_url } = data;
+    const bioData =
+        showBio.toLowerCase() === "true" ? `<div class="bio">${bio}</div>` : "";
+    const companyData =
+        showCompany.toLowerCase() === "true"
+            ? `<div class="company">
+                <a href="https://github.com/${company.slice(
+                    1
+                )}" class="link" target="_blank">${company.slice(1)}</a>
+            </div>`
+            : "";
+    const statsData =
+        showStats.toLowerCase() === "true" ? profileStats(data) : "";
+
+    return `<div class="${theme}-themed">
+    <div class="profile-wrapper">
+        <div class="img-wrapper">
+            <img src="${avatar_url}" class="profile-pic">
+        </div>
+        <div class="userdetails-wrapper">
+            <div class="name">${name}</div>
+            ${bioData}
+            ${companyData}
+        </div>
+    </div>
+    ${statsData}
+    <div class="profile-btn-wrapper">
+        <a href="${html_url}" class="button profile-button" target="_blank">View profile</a>
+    </div>
+    <slot></slot>
+</div>`;
+};
+
+const profileStats = ({
+    html_url,
+    public_repos,
+    followers,
+    following
+}) => `<div class="profile-stats-wrapper">
+        <div class="repostats-wrapper">
+            <div class="header">Repositories</div>
+            <div class="num">
+                <a href="${html_url}?tab=repositories" class="num" target="_blank">${public_repos}</a>
+            </div>
+        </div>
+        <div class="follower-wrapper">
+            <div class="header">Followers</div>
+            <div class="num">
+                <a href="${html_url}?tab=followers" class="num" target="_blank">${followers}</a>
+            </div>
+        </div>
+        <div class="following-wrapper">
+            <div class="header">Following</div>
+            <div class="num">
+                <a href="${html_url}?tab=following" class="num" target="_blank">${following}</a>
+            </div>
+        </div>
+    </div>`;
+
+const repoTemplate = (data, config = {}) => {
+    let repoMarkup = data
+        .map((r) => {
+            const {
+                description,
+                forks_count,
+                html_url,
+                language,
+                name,
+                pushed_at,
+                stargazers_count,
+                updated_at,
+                watchers_count
+            } = r;
+
+            return `<div class="repo">
+            <h3 class="name" aria-describedby="${description}">
+                <a href="${html_url}" class="link" target="_blank">${name}</a>
+                ${language ? `<span class="language">${language}</span>` : ""}
+            </h3>
+            <div class="stats">
+                <div class="count">Stars: ${stargazers_count}</div>
+                <div class="count">Watch: ${watchers_count}</div>
+                <div class="count">Fork: ${forks_count}</div>
+            </div>
+        </div>`;
+        })
+        .join("");
+    return `<div class="repo-wrapper">
+        ${data.length ? `<h3 class="title">Repositories</h3>` : ""}
+        ${repoMarkup}
+    </div>`;
+};
+
+const PROFILE_STYLE = `
+.profile-wrapper, .profile-stats-wrapper, .profile-btn-wrapper {
+  font-family: monospace;
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  background-color: #ccc;
+  padding: 15px;
+  box-sizing: border-box; }
+  .profile-wrapper .img-wrapper, .profile-stats-wrapper .img-wrapper, .profile-btn-wrapper .img-wrapper {
+    flex: 1;
+    height: 80px;
+    width: 80px; }
+    .profile-wrapper .img-wrapper img, .profile-stats-wrapper .img-wrapper img, .profile-btn-wrapper .img-wrapper img {
+      height: 100%;
+      border-radius: 50%; }
+  .profile-wrapper .userdetails-wrapper, .profile-stats-wrapper .userdetails-wrapper, .profile-btn-wrapper .userdetails-wrapper {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+    .profile-wrapper .userdetails-wrapper .name, .profile-stats-wrapper .userdetails-wrapper .name, .profile-btn-wrapper .userdetails-wrapper .name {
+      color: black;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 20px; }
+    .profile-wrapper .userdetails-wrapper .bio, .profile-wrapper .userdetails-wrapper .company, .profile-stats-wrapper .userdetails-wrapper .bio, .profile-stats-wrapper .userdetails-wrapper .company, .profile-btn-wrapper .userdetails-wrapper .bio, .profile-btn-wrapper .userdetails-wrapper .company {
+      color: grey;
+      font-size: 15px;
+      margin-top: 5px; }
+
+.profile-stats-wrapper {
+  justify-content: space-between;
+  padding-top: 0; }
+  .profile-stats-wrapper .repostats-wrapper,
+  .profile-stats-wrapper .follower-wrapper,
+  .profile-stats-wrapper .following-wrapper {
+    flex: 1;
+    text-align: center; }
+    .profile-stats-wrapper .repostats-wrapper .header,
+    .profile-stats-wrapper .follower-wrapper .header,
+    .profile-stats-wrapper .following-wrapper .header {
+      font-weight: bold; }
+    .profile-stats-wrapper .repostats-wrapper .num,
+    .profile-stats-wrapper .follower-wrapper .num,
+    .profile-stats-wrapper .following-wrapper .num {
+      margin-top: 5px;
+      font-size: 20px; }
+
+.profile-btn-wrapper {
+  padding-top: 0; }
+  .profile-btn-wrapper .button {
+    padding: 5px 10px;
+    text-decoration: none;
+    background-color: white;
+    border: 1px solid;
+    border-radius: 4px;
+    font-weight: 600; }
+
+.link {
+  text-decoration: none;
+  color: #24292e; }
+
+.dark-themed {
+  border: 1px solid #24292e;
+  width: 300px;
+  display: inline-block; }
+  .dark-themed.contains-sibling {
+    border-bottom: none; }
+  .dark-themed .link {
+    color: white; }
+    .dark-themed .link:hover {
+      color: #0366d6; }
+  .dark-themed .profile-wrapper, .dark-themed .profile-stats-wrapper, .dark-themed .profile-btn-wrapper {
+    background-color: #24292e; }
+  .dark-themed .userdetails-wrapper .name {
+    color: white; }
+  .dark-themed .userdetails-wrapper .bio, .dark-themed .userdetails-wrapper .company {
+    color: white; }
+  .dark-themed .profile-stats-wrapper .header {
+    color: white; }
+  .dark-themed .profile-stats-wrapper .num {
+    color: white;
+    text-decoration: none; }
+  .dark-themed .profile-btn-wrapper .button {
+    background-color: #24292e;
+    border-color: white;
+    color: white; }
+
+.light-themed {
+  border: 1px solid #ccc;
+  width: 300px;
+  display: inline-block; }
+  .light-themed.contains-sibling {
+    border-bottom: none; }
+  .light-themed .link {
+    color: #24292e; }
+    .light-themed .link:hover {
+      color: #0366d6; }
+  .light-themed .profile-wrapper, .light-themed .profile-stats-wrapper, .light-themed .profile-btn-wrapper {
+    background-color: white; }
+  .light-themed .userdetails-wrapper .name {
+    color: #24292e; }
+  .light-themed .userdetails-wrapper .bio, .light-themed .userdetails-wrapper .company {
+    color: #24292e; }
+  .light-themed .profile-stats-wrapper .header {
+    color: #24292e; }
+  .light-themed .profile-stats-wrapper .num {
+    color: #0366d6;
+    text-decoration: none; }
+  .light-themed .profile-btn-wrapper .button {
+    background-color: white;
+    border-color: #24292e;
+    color: #24292e; }
+`;
+
+const REPO_STYLE = `
+* {
+  margin: 0;
+  padding: 0; }
+
+.link {
+  text-decoration: none;
+  color: #24292e; }
+
+.repo-wrapper {
+  width: 300px;
+  font-family: monospace;
+  padding: 0 15px;
+  box-sizing: border-box; }
+  .repo-wrapper .title {
+    font-size: 17px;
+    text-align: center; }
+  .repo-wrapper .repo {
+    padding: 15px 0; }
+    .repo-wrapper .repo .desc {
+      font-size: 14px; }
+    .repo-wrapper .repo .name {
+      font-size: 14px; }
+    .repo-wrapper .repo .language {
+      font-size: 12px;
+      background-color: brown;
+      color: white;
+      padding: 0 3px;
+      border-radius: 2px; }
+    .repo-wrapper .repo .stats {
+      display: flex; }
+      .repo-wrapper .repo .stats .count {
+        flex: 1; }
+
+`;
+
+class Repo extends HTMLElement {
+    fetchUserRepoDetails(user, config) {
+        let params = new URLSearchParams("");
+        if (config.limit) {
+            params.append("per_page", config.limit || 10);
+        }
+        if (config.sort) {
+            params.append("sort", config.sort || "pushed");
+        }
+        if (config.direction) {
+            params.append("direction", config.direction);
+        }
+        return getData(
+            `https://api.github.com/users/${user}/repos?${params.toString()}`,
+            "repo");
+    }
+
+    constructor() {
+        super();
+        let shadowRoot = this.attachShadow({ mode: "open" });
+        const style = document.createElement("style");
+        style.textContent = REPO_STYLE;
+        shadowRoot.appendChild(style);
+    }
+
+    renderUI(data, config) {
+        this.shadowRoot.innerHTML += repoTemplate(data, config);
+    }
+
+    connectedCallback() {
+        const user =
+            this.parentElement.getAttribute("user") ||
+            this.parentElement.parentElement.getAttribute("user");
+        const repo_config = this.dataset;
+
+        this.fetchUserRepoDetails(user, repo_config).then((dataRes) => {
+            if (!dataRes) ; else {
+                //render ui
+                this.renderUI(dataRes, repo_config);
+            }
+        });
+    }
+}
+
+customElements.define("repo-info", Repo);
+
+// https://api.github.com/users/binodswain/repos
+
+// Create a class for the element
+class Github extends HTMLElement {
+    get user() {
+        return this.getAttribute("user");
+    }
+
+    constructor() {
+        super();
+    }
+}
+
+customElements.define("github-w", Github);
+
+class Profile extends HTMLElement {
+    fetchUserDetails(user) {
+        return getData("https://api.github.com/users/" + user, "profile");
+    }
+
+    constructor() {
+        super();
+        let shadowRoot = this.attachShadow({ mode: "open" });
+        const style = document.createElement("style");
+        style.textContent = PROFILE_STYLE;
+        shadowRoot.appendChild(style);
+    }
+
+    renderUI(data, profile_cofig) {
+        this.shadowRoot.innerHTML += profileTemplate(data, profile_cofig);
+    }
+
+    connectedCallback() {
+        const user = this.parentElement.getAttribute("user");
+        const profile_cofig = this.dataset;
+        this.fetchUserDetails(user).then((dataRes) => {
+            if (!dataRes) ; else {
+                //render ui
+                this.renderUI(dataRes, profile_cofig);
+            }
+        });
+    }
+}
+
+customElements.define("profile-info", Profile);

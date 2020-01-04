@@ -3,10 +3,6 @@ import { repoTemplate } from "./component";
 import { REPO_STYLE as STYLE } from "./styles";
 
 class Repo extends HTMLElement {
-    // static get observedAttributes() {
-    //   return ['c', 'l'];
-    // }
-
     fetchUserRepoDetails(user, config) {
         let params = new URLSearchParams("");
         if (config.limit) {
@@ -26,7 +22,6 @@ class Repo extends HTMLElement {
     }
 
     constructor() {
-        // Always call super first in constructor
         super();
         let shadowRoot = this.attachShadow({ mode: "open" });
         const style = document.createElement("style");
@@ -54,12 +49,6 @@ class Repo extends HTMLElement {
             }
         });
     }
-
-    disconnectedCallback() {}
-
-    adoptedCallback() {}
-
-    attributeChangedCallback(name, oldValue, newValue) {}
 }
 
 customElements.define("repo-info", Repo);
