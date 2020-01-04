@@ -1,5 +1,5 @@
 {
-  "name": "gh-profile",
+  "name": "gh-profile-card",
   "version": "0.1.0",
   "main": "dist/github-widget.cjs.js",
   "module": "dist/github-widget.esm.mjs",

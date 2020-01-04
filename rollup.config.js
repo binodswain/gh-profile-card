@@ -15,7 +15,7 @@ export default [
 		plugins: [
 			resolve(),
 			commonjs(),
-			// terser()
+			terser()
 		]
 	},
 
@@ -32,7 +32,7 @@ export default [
 			{ file: pkg.module, format: 'es' }
 		],
 		plugins: [
-			// terser()
+			terser()
 		]
 	}
 ];
